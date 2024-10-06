@@ -1,0 +1,344 @@
+{% load static %}
+<html>
+    <head>
+
+        <title>Profile</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style>
+            @import url("https://fonts.googleapis.com/css?family=Ubuntu:300, 400, 500, 700&display=swap");
+            body {
+            background: #d9ecf2;
+            }
+
+            .profile-card {
+            position: absolute;
+            width: 28rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Ubuntu", sans-serif;
+            letter-spacing: 0.025em;
+            text-align: center;
+            color: #002d40;
+            }
+            .profile-card .cover {
+            background-image: url("https://source.unsplash.com/WLUHO9A_xik/1600x900"), linear-gradient(135deg, rgba(26, 166, 183, 0.2), rgba(255, 65, 77, 0.4));
+            background-position: center;
+            background-size: cover;
+            background-blend-mode: overlay;
+            height: 14rem;
+            width: 100%;
+            border-radius: 2rem;
+            margin-bottom: -14rem;
+            transform: translateY(0);
+            transition: transform 500ms ease-in-out, opacity 200ms 300ms;
+            opacity: 0;
+            box-shadow: 0 2rem 4rem -3rem rgba(0, 45, 64, 0.5), 0 0rem 8rem 0 rgba(0, 45, 64, 0.1);
+            }
+            .profile-card .pic {
+            background-image: linear-gradient(135deg, rgba(26, 166, 183, 0.1), rgba(255, 65, 77, 0.2));
+            background-position: center;
+            background-size: cover;
+            background-blend-mode: overlay;
+            position: absolute;
+            left: 50%;
+            width: 8rem;
+            height: 8rem;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            margin-top: -2rem;
+            z-index: 2;
+            box-shadow: 0 1rem 1.5rem -1rem rgba(0, 45, 64, 0.2), 0 0 0.5rem 0 rgba(0, 45, 64, 0.2), 0 0rem 4rem 0 rgba(0, 0, 0, 0.2);
+            }
+            .profile-card .profile {
+            position: relative;
+            background: white;
+            width: 100%;
+            border-radius: 2rem;
+            padding-top: 2rem;
+            box-sizing: border-box;
+            transition: transform 500ms ease-in-out;
+            box-shadow: 0 2rem 4rem -3rem rgba(0, 45, 64, 0.5), 0 0rem 8rem 0 rgba(0, 45, 64, 0.1);
+            }
+            .profile-card .above-fold {
+            padding-top: 3rem;
+            }
+            .profile-card .above-fold .name {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            }
+            .profile-card .above-fold .role {
+            font-size: 1.5rem;
+            color: #1aa6b7;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            }
+            .profile-card .above-fold .location {
+            font-size: 1.2em;
+            font-weight: 200;
+            margin-bottom: 0.5rem;
+            opacity: 0.6;
+            }
+            .profile-card .above-fold .location i {
+            margin-right: 0.5rem;
+            }
+            .profile-card .below-fold {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 500ms ease-in-out, opacity 500ms 250ms;
+            }
+            .profile-card .below-fold .stats {
+            border-top: 1px solid rgba(0, 45, 64, 0.1);
+            margin-top: 1.5rem;
+            }
+            .profile-card .below-fold .stat {
+            flex-basis: 4rem;
+            flex-grow: 2;
+            padding: 1rem 0;
+            border-right: 1px solid rgba(0, 45, 64, 0.1);
+            margin-right: 1px;
+            cursor: pointer;
+            background: rgba(217, 236, 242, 0.2);
+            transition: background 200ms;
+            }
+            .profile-card .below-fold .stat:hover {
+            background: rgba(217, 236, 242, 0.4);
+            }
+            .profile-card .below-fold .stat:last-child {
+            border: none;
+            }
+            .profile-card .below-fold .stat label {
+            font-weight: 400;
+            opacity: 0.4;
+            }
+            .profile-card .below-fold .stat .num {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #1aa6b7;
+            margin: 0.5rem;
+            }
+            .profile-card .below-fold .about {
+            margin: -1rem 0 2rem;
+            padding: 0 2rem;
+            text-align: left;
+            }
+            .profile-card .below-fold .about p {
+            font-weight: 300;
+            line-height: 1.5rem;
+            }
+            .profile-card.expand .cover {
+            opacity: 1;
+            transform: translateY(-5rem);
+            transition: transform 500ms ease-in-out, opacity 200ms 0ms;
+            }
+            .profile-card.expand .profile {
+            transform: translateY(5rem);
+            }
+            .profile-card.expand .below-fold {
+            max-height: 19em;
+            opacity: 1;
+            }
+            .profile-card.expand #expand-button {
+            animation: none;
+            transform: rotate(180deg);
+            }
+
+            .row {
+            display: flex;
+            justify-content: center;
+            }
+
+            .button {
+            width: 9rem;
+            height: 2rem;
+            padding: 1.2rem;
+            margin: 1rem 0.5rem 0;
+            box-sizing: border-box;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 0;
+            text-transform: upper;
+            font-weight: 500;
+            color: #f56a79;
+            border: 2px solid #f56a79;
+            border-radius: 2rem;
+            transition: background 200ms, color 200ms;
+            }
+            .button:hover {
+            background: #f56a79;
+            color: white;
+            }
+
+            #expand-button {
+            opacity: 0.3;
+            font-size: 1.5rem;
+            margin: 1rem auto;
+            animation: bounce 4s infinite;
+            height: 2.5rem;
+            width: 2.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 200ms, color 200ms, transform 500ms;
+            }
+            #expand-button i {
+            height: 0;
+            margin-top: 0.5rem;
+            }
+            #expand-button:hover {
+            background: #002d40;
+            color: white;
+            }
+
+            @keyframes bounce {
+            0%, 60%, 100% {
+                transform: translatey(0);
+            }
+            80% {
+                transform: translatey(-8px);
+            }
+            90% {
+                transform: translatey(8px);
+            }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Button trigger modal -->
+        <div class="" style="padding: 20px; margin-left: 12px;">
+            <a href="{% url 'index' %}"><i class="fa fa-arrow-left fa-2x"></i></a>
+        </div>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form method="POST">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Post</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                {{form}}
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        </div>
+    </form>
+  </div>
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    {% for p in posts %}
+    <form method="POST" action="{% url 'edit' p.id %}">
+    {% endfor %}
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            
+
+                {% csrf_token %}
+                <p>
+                    <input type="text" name="about" id="aboutInput" value="{{ form.about.value|default_if_none:'' }}" class="form-control" />
+                </p>
+                
+       
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        
+        </div>
+    
+      </div>
+    </div>
+    </form> 
+    </div>
+        <div class="background"></div>
+        <div class="profile-card">
+        <div class="cover"></div>
+        <div class="profile">
+            {% for p in posts %}
+            <div class="pic" style="background-image: url('{{p.profile_pic.url}}');"></div>
+            {% endfor %}
+            <div class="above-fold">
+            <div class="name">
+                {{username}}
+            </div>
+            <div class="role">
+               Profile
+            </div>
+            <div class="location">
+                <i class="fa fa-envelope" aria-hidden="true"></i>{{email}}
+            </div>
+            
+            <div id="expand-button">
+                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+            </div>
+            </div>
+            <div class="below-fold">
+            <div class="about">
+                <h3 class="mt-3">
+                About
+                </h3>
+                <div id="lp">
+                {% for p in posts %}
+                    {{p.about}}
+                {% endfor %}
+                </div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="postButton">
+                    Post
+                  </button>
+                  
+            </div>
+            
+            </div>
+
+        </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+           
+            var postButton = document.getElementById('postButton');
+            var postContent = document.getElementById('lp').innerText.trim();
+            
+            if (postContent !== "") {
+                postButton.innerHTML = 'Edit';
+                postButton.setAttribute('data-target', '#exampleModalCenter');
+
+                postButton.addEventListener('click', function() {
+                    console.log('Edit pressed')
+                    document.querySelector('#exampleModalCenter input[name="about"]').value = postContent;
+                });
+
+
+            } else {
+                postButton.innerHTML = 'Post';
+                postButton.setAttribute('data-target', '#exampleModal');
+            }
+        });
+    </script>
+    <script>
+        $('#expand-button').click(function() {
+            $('.profile-card').toggleClass('expand');
+        })
+    </script>
+</html>

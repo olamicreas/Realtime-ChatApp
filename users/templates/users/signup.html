@@ -1,0 +1,85 @@
+{% extends 'users/base.html' %}
+{% load account socialaccount %}
+{% block content %}
+<div>
+    <h2 style="text-align: center;" class="mt-3">Sign Up</h2>
+    <div class="" style="display: flex; justify-content: center;">
+        <div>
+            <form method="POST" enctype="multipart/form-data" style="background: #f4f4f4; min-width: 500px; padding: 50px 60px; border-radius: 20px;">
+                {% csrf_token %}
+                <div>
+                    <div class="form-group position-relative">
+                        <label>Your Email <span class="text-danger">*</span></label>
+                        <div>{{ form.email }}</div>
+                    </div>
+                    {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="form-group position-relative">
+                        <label>Username <span class="text-danger">*</span></label>
+                        <div>{{ form.username }}</div>
+                    </div>
+                    {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="form-group position-relative">
+                        <label>Password <span class="text-danger">*</span></label>
+                        <div>{{ form.password1 }}</div>
+                    </div>
+                    {% if form.password1.errors %}
+                    {% for error in form.password1.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="form-group position-relative">
+                        <label>Confirm Password <span class="text-danger">*</span></label>
+                        <div>{{ form.password2 }}</div>
+                    </div>
+                    {% if form.password2.errors %}
+                    {% for error in form.password2.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="form-group position-relative">
+                        <label>Upload Display Picture <span class="text-danger">*</span></label>
+                        <div>{{ form.profile_pic }}</div>
+                    </div>
+                    {% if form.profile_pic.errors %}
+                    {% for error in form.profile_pic.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="text-center">
+                        <button class="btn btn-primary w-100 mt-3" type="submit" style="width: 50%;">Register</button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger">Sign Up with Google</a>
+                    </div>
+
+                    <p class="mb-0 mt-3 text-center"><small class="text-dark mr-2">Already have an account?</small> <a href="{% url 'Login' %}" class="text-dark font-weight-bold">Sign in</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
